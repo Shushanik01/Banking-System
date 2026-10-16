@@ -5,15 +5,14 @@ import com.bank.domain.Money;
 
 public class AccountService {
 
-        public void transfer(Account to, Account from, Money amount){
+    public void transfer(Account from, Account to, Money amount) {
+        validateTransfer(from, to, amount);
 
-            validateTransfer(to, from, amount);
+        from.withdraw(amount);
+        to.deposit(amount);
+    }
 
-            from.withdraw(amount);
-            to.deposit(amount);
-
-        }
-    private  void validateTransfer(Account to, Account from, Money amount){
+    private void validateTransfer(Account from, Account to, Money amount) {
 
         if(from == null || to == null || amount == null){
             throw new IllegalArgumentException("Transfer arguments can not be null");
