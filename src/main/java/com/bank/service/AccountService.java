@@ -2,8 +2,29 @@ package com.bank.service;
 
 import com.bank.domain.Account;
 import com.bank.domain.Money;
+import java.util.Currency;
+import  java.util.UUID;
+
+import com.bank.repository.AccountRepository;
 
 public class AccountService {
+
+    private final AccountRepository repository;
+
+    public AccountService(AccountRepository repository){
+        this.repository = repository;
+    }
+
+    public Account openAccount(Currency currency){
+        final UUID accountId = UUID.randomUUID();
+        // private void validateCurrency(Currency currency){
+
+        // }
+        final Account newAccount = new Account(accountId, currency);
+        // accounts.put(accountId, newAccount);
+        repository.save(newAccount);
+        return newAccount;
+    }
 
     public void transfer(Account from, Account to, Money amount) {
         validateTransfer(from, to, amount);
