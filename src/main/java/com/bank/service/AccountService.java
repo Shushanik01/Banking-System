@@ -26,6 +26,14 @@ public class AccountService {
         return newAccount;
     }
 
+    public void deposit(UUID accountId, Money amount ){
+        Account account = repository.findById(accountId)
+        .orElseThrow(()-> new IllegalArgumentException("Account not found"));
+
+        account.deposit(amount);
+        repository.save(account);
+    }
+
     public void transfer(Account from, Account to, Money amount) {
         validateTransfer(from, to, amount);
 
