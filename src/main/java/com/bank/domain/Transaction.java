@@ -7,8 +7,8 @@ public record Transaction(
         UUID id,
         TransactionType type,
         Money amount,
-        Long fromAccountId,
-        Long toAccountId,
+        UUID fromAccountId,
+        UUID toAccountId,
         LocalDateTime createdAt
 ) {
 
