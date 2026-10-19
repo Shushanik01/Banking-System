@@ -2,17 +2,24 @@ package com.bank.service;
 
 import com.bank.domain.Account;
 import com.bank.domain.Money;
+import com.bank.domain.Transaction;
+
+import java.time.LocalDateTime;
 import java.util.Currency;
-import  java.util.UUID;
+import java.util.UUID;
 
 import com.bank.repository.AccountRepository;
+import com.bank.repository.TransactionRepository;
 
 public class AccountService {
 
     private final AccountRepository repository;
+    private  final TransactionRepository transaction;
 
-    public AccountService(AccountRepository repository){
+    public AccountService(AccountRepository repository, TransactionRepository transaction){
         this.repository = repository;
+        this.transaction = transaction;
+
     }
 
     public Account openAccount(Currency currency){
@@ -32,6 +39,13 @@ public class AccountService {
 
         account.deposit(amount);
         repository.save(account);
+        transaction.save(new Transaction(
+                UUID.randomUUID(),
+                Transaction.TransactionType.DEPOSIT,
+                amount,
+                null,
+                accountId,
+                LocalDateTime.now()));
     }
 
     public void withdraw(UUID accountId, Money amount){
