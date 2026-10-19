@@ -54,6 +54,13 @@ public class AccountService {
 
         account.withdraw(amount);
         repository.save(account);
+        transaction.save(new Transaction(
+                UUID.randomUUID(),
+                Transaction.TransactionType.WITHDRAW,
+                amount,
+                accountId,
+                null,
+                LocalDateTime.now()));
     }
 
     public void transfer(UUID fromId, UUID toId, Money amount){
@@ -67,6 +74,13 @@ public class AccountService {
         transfer(fromAccount, toAccount, amount);
         repository.save(fromAccount);
         repository.save(toAccount);
+        transaction.save(new Transaction(
+                UUID.randomUUID(),
+                Transaction.TransactionType.TRANSFER,
+                amount,
+                fromId,
+                toId,
+                LocalDateTime.now()));
     }
 
     public Account getAccount(UUID accountId){
