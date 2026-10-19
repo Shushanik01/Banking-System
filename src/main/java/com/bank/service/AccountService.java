@@ -34,7 +34,28 @@ public class AccountService {
         repository.save(account);
     }
 
-    public void transfer(Account from, Account to, Money amount) {
+    public void withdraw(UUID accountId, Money amount){
+        Account account = repository.findById(accountId)
+        .orElseThrow(()-> new IllegalArgumentException("Account not found"));
+
+        account.withdraw(amount);
+        repository.save(account);
+    }
+
+    public void transfer(UUID fromId, UUID toId, Money amount){
+
+        Account toAccount = repository.findById(toId)
+                .orElseThrow(() -> new IllegalArgumentException("Account to transfer to not found"));
+        
+        Account fromAccount = repository.findById(fromId)
+                .orElseThrow(()-> new IllegalArgumentException("Account to transfer from not found"));
+
+        transfer(fromAccount, toAccount, amount);
+        repository.save(fromAccount);
+        repository.save(toAccount);
+    }
+
+    private void transfer(Account from, Account to, Money amount) {
         validateTransfer(from, to, amount);
 
         from.withdraw(amount);
