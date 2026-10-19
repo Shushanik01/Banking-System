@@ -55,6 +55,14 @@ public class AccountService {
         repository.save(toAccount);
     }
 
+    public Account getAccount(UUID accountId){
+
+        Account account = repository.findById(accountId)
+                .orElseThrow(() -> new IllegalArgumentException("Account not found"));
+
+        return account;
+
+    }
     private void transfer(Account from, Account to, Money amount) {
         validateTransfer(from, to, amount);
 
