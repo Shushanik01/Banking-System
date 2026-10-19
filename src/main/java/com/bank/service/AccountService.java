@@ -7,6 +7,7 @@ import com.bank.domain.Transaction;
 import java.time.LocalDateTime;
 import java.util.Currency;
 import java.util.UUID;
+import  java.util.List;
 
 import com.bank.repository.AccountRepository;
 import com.bank.repository.TransactionRepository;
@@ -110,5 +111,9 @@ public class AccountService {
         if (!from.balance().currency().equals(amount.currency())) {
             throw new IllegalArgumentException("Source account currency mismatch");
         }
+    }
+
+    public List <Transaction> getTransactions(UUID id){
+      return  transaction.findById(id);
     }
 }
